@@ -521,6 +521,36 @@ paths:
           schema:
             $ref: '#/definitions/gin.H'
       summary: Create recordfood
+  /recordfoods/{id}:
+    delete:
+      description: get recordfood by ID
+      operationId: delete-recordfood
+      parameters:
+      - description: Recordfood ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a recordfood entity by ID
   /sources:
     get:
       description: list source entities

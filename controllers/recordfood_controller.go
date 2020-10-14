@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/faomg201/app/ent"
@@ -162,6 +163,39 @@ func (ctl *RecordfoodController) ListRecordfood(c *gin.Context) {
 	c.JSON(200, recordfoods)
 }
 
+// DeleteRecordfood handles DELETE requests to delete a recordfood entity
+// @Summary Delete a recordfood entity by ID
+// @Description get recordfood by ID
+// @ID delete-recordfood
+// @Produce  json
+// @Param id path int true "Recordfood ID"
+// @Success 200 {object} gin.H
+// @Failure 400 {object} gin.H
+// @Failure 404 {object} gin.H
+// @Failure 500 {object} gin.H
+// @Router /recordfoods/{id} [delete]
+func (ctl *RecordfoodController) DeleteRecordfood(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	err = ctl.client.Recordfood.
+		DeleteOneID(int(id)).
+		Exec(context.Background())
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{"result": fmt.Sprintf("ok deleted %v", id)})
+}
+
 // NewRecordfoodController creates and registers handles for the recordfood controller
 func NewRecordfoodController(router gin.IRouter, client *ent.Client) *RecordfoodController {
 	pvc := &RecordfoodController{
@@ -180,5 +214,6 @@ func (ctl *RecordfoodController) register() {
 
 	recordfoods.POST("", ctl.CreateRecordfood)
 	recordfoods.GET("", ctl.ListRecordfood)
+	recordfoods.DELETE(":id", ctl.DeleteRecordfood)
 
 }

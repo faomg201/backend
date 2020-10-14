@@ -574,6 +574,51 @@ var doc = `{
                 }
             }
         },
+        "/recordfoods/{id}": {
+            "delete": {
+                "description": "get recordfood by ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a recordfood entity by ID",
+                "operationId": "delete-recordfood",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Recordfood ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/gin.H"
+                        }
+                    }
+                }
+            }
+        },
         "/sources": {
             "get": {
                 "description": "list source entities",
